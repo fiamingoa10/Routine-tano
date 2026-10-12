@@ -75,6 +75,7 @@ export function RoutineApp() {
   const toast = useRoutine((s) => s.toast);
   const activities = useRoutine((s) => s.activities);
   const motto = useRoutine((s) => s.profile.motto);
+  const avatar = useRoutine((s) => s.profile.avatar ?? "");
   const search = useRoutine((s) => s.search);
   const setSearch = useRoutine((s) => s.setSearch);
   const mounted = useMounted();
@@ -149,7 +150,15 @@ export function RoutineApp() {
                   ) : null}
                 </RoundIcon>
                 <RoundIcon label="Perfil y ajustes" onClick={() => setMore("ajustes")}>
-                  <UserRound className="size-5" />
+                  {avatar ? (
+                    <img
+                      src={avatar}
+                      alt="Foto de perfil"
+                      className="size-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <UserRound className="size-5" />
+                  )}
                 </RoundIcon>
               </>
             )}

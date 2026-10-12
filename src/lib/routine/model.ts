@@ -241,6 +241,7 @@ export type Course = {
 export type Profile = {
   name: string;
   motto: string;
+  avatar: string;
   theme: "light" | "dark";
   tomorrowReminder: string;
   freeEvening: boolean;

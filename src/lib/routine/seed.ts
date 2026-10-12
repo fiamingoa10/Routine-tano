@@ -738,6 +738,7 @@ export function buildProfile(): Profile {
     motto: "Organiza hoy, construye tu mañana",
     theme: "light",
     tomorrowReminder: "21:00",
+    avatar: "",
     freeEvening: true,
     catchUpDate: "",
     alarm: "",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   BarChart3,
   ChevronLeft,
@@ -756,6 +756,66 @@ function Family() {
   );
 }
 
+async function prepareAvatar(file: File): Promise<string> {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("El archivo seleccionado no es una imagen.");
+  }
+
+  if (file.size > 12 * 1024 * 1024) {
+    throw new Error("La imagen es demasiado grande. Elige una menor de 12 MB.");
+  }
+
+  const source = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("No se pudo leer la imagen."));
+      }
+    };
+
+    reader.onerror = () => reject(new Error("No se pudo leer la imagen."));
+    reader.readAsDataURL(file);
+  });
+
+  const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("No se pudo procesar la imagen."));
+    img.src = source;
+  });
+
+  const size = Math.min(image.naturalWidth, image.naturalHeight);
+  const sourceX = Math.max(0, (image.naturalWidth - size) / 2);
+  const sourceY = Math.max(0, (image.naturalHeight - size) / 2);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 256;
+  canvas.height = 256;
+
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("El navegador no permite procesar la imagen.");
+  }
+
+  context.drawImage(
+    image,
+    sourceX,
+    sourceY,
+    size,
+    size,
+    0,
+    0,
+    256,
+    256,
+  );
+
+  return canvas.toDataURL("image/jpeg", 0.82);
+}
+
 function SettingsView() {
   const profile = useRoutine((s) => s.profile);
   const updateProfile = useRoutine((s) => s.updateProfile);
@@ -770,9 +830,92 @@ function SettingsView() {
   const [placeAddress, setPlaceAddress] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationBusy, setNotificationBusy] = useState(false);
+  const avatarInput = useRef<HTMLInputElement>(null);
+  const [avatarMessage, setAvatarMessage] = useState("");
   return (
     <section className="space-y-4">
       <h1 className="font-display text-3xl">Ajustes</h1>
+
+      <div className="rounded-3xl border border-line bg-paper p-4">
+        <h2 className="font-display text-xl">Foto de perfil</h2>
+
+        <div className="mt-3 flex items-center gap-4">
+          <div className="grid size-20 shrink-0 place-items-center overflow-hidden rounded-full bg-sage-soft text-forest">
+            {profile.avatar ? (
+              <img
+                src={profile.avatar}
+                alt="Foto de perfil"
+                className="size-full object-cover"
+              />
+            ) : (
+              <Users className="size-8" aria-hidden="true" />
+            )}
+          </div>
+
+          <div className="flex-1">
+            <p className="text-sm text-muted">
+              Elige una imagen desde este dispositivo. La foto se guarda solamente
+              en la aplicación.
+            </p>
+
+            <input
+              ref={avatarInput}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (event) => {
+                const file = event.target.files?.[0];
+                event.target.value = "";
+
+                if (!file) return;
+
+                setAvatarMessage("Procesando imagen...");
+
+                try {
+                  const avatar = await prepareAvatar(file);
+                  updateProfile({ avatar });
+                  setAvatarMessage("Foto de perfil actualizada.");
+                } catch (error) {
+                  setAvatarMessage(
+                    error instanceof Error
+                      ? error.message
+                      : "No se pudo guardar la imagen.",
+                  );
+                }
+              }}
+            />
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => avatarInput.current?.click()}
+                className="min-h-10 rounded-2xl bg-forest px-4 text-sm font-bold text-forest-fg"
+              >
+                {profile.avatar ? "Cambiar foto" : "Elegir foto"}
+              </button>
+
+              {profile.avatar ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    updateProfile({ avatar: "" });
+                    setAvatarMessage("Foto de perfil eliminada.");
+                  }}
+                  className="min-h-10 rounded-2xl bg-sand px-4 text-sm font-bold"
+                >
+                  Quitar foto
+                </button>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        {avatarMessage ? (
+          <p className="mt-3 text-sm font-semibold text-forest">
+            {avatarMessage}
+          </p>
+        ) : null}
+      </div>
 
       <div className="rounded-3xl border border-line bg-paper p-4">
         <h2 className="font-display text-xl">Notificaciones</h2>
