@@ -1,0 +1,151 @@
+@import "@fontsource/nunito/400.css";
+@import "@fontsource/nunito/600.css";
+@import "@fontsource/nunito/700.css";
+@import "@fontsource/nunito/800.css";
+@import "@fontsource/caveat/600.css";
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #eef3f7;
+  --paper: #f8fafc;
+  --card: #ffffff;
+  --ink: #0e2a47;
+  --muted: #607080;
+  --forest: #0e2a47;
+  --forest-fg: #f8fafc;
+  --sage: #0f7b5f;
+  --sage-soft: #dceae6;
+  --sand: #eef2f6;
+  --line: #d8e1e8;
+  --gold: #f4a62a;
+  --blush: #f4a62a;
+  --danger: #c95050;
+  --ok: #16815f;
+  --bubble-teach: #f6e3c4;
+  --bubble-teach-fg: #c4843a;
+  --bubble-uni: #d7ebd9;
+  --bubble-uni-fg: #2f7a52;
+  --bubble-spirit: #e4ddf6;
+  --bubble-spirit-fg: #7b62c0;
+  --bubble-food: #f8d4d8;
+  --bubble-food-fg: #e07a8a;
+  --bubble-gym: #d5e4f8;
+  --bubble-gym-fg: #4c78c0;
+  --bubble-rest: #e7eef6;
+  --bubble-rest-fg: #5c7494;
+  --bubble-family: #e3d9f6;
+  --bubble-family-fg: #7b62c0;
+  --bubble-home: #f6e3c4;
+  --bubble-home-fg: #c4843a;
+  --bubble-travel: #d7e8dc;
+  --bubble-travel-fg: #3e8f62;
+  --bubble-study: #e6ddf6;
+  --bubble-study-fg: #7a62b0;
+  --bubble-personal: #f8e7c8;
+  --bubble-personal-fg: #c4922a;
+  --bubble-preach: #d7ebe4;
+  --bubble-preach-fg: #217564;
+  --shadow: 0 10px 28px rgb(16 36 58 / 0.06);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #071522;
+  --paper: #0b1d2d;
+  --card: #10283b;
+  --ink: #eef6fb;
+  --muted: #a9b8c5;
+  --forest: #4db89a;
+  --forest-fg: #061c2a;
+  --sage: #7ac9b3;
+  --sage-soft: #153b3b;
+  --sand: #13283a;
+  --line: #26465b;
+  --gold: #ffc060;
+  --blush: #ffad42;
+  --danger: #ff9a9a;
+  --ok: #75d6a4;
+  --shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-forest: var(--forest);
+  --color-forest-fg: var(--forest-fg);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-sand: var(--sand);
+  --color-line: var(--line);
+  --color-gold: var(--gold);
+  --color-blush: var(--blush);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --color-bubble-teach: var(--bubble-teach);
+  --color-bubble-teach-fg: var(--bubble-teach-fg);
+  --color-bubble-uni: var(--bubble-uni);
+  --color-bubble-uni-fg: var(--bubble-uni-fg);
+  --color-bubble-spirit: var(--bubble-spirit);
+  --color-bubble-spirit-fg: var(--bubble-spirit-fg);
+  --color-bubble-food: var(--bubble-food);
+  --color-bubble-food-fg: var(--bubble-food-fg);
+  --color-bubble-gym: var(--bubble-gym);
+  --color-bubble-gym-fg: var(--bubble-gym-fg);
+  --color-bubble-rest: var(--bubble-rest);
+  --color-bubble-rest-fg: var(--bubble-rest-fg);
+  --color-bubble-family: var(--bubble-family);
+  --color-bubble-family-fg: var(--bubble-family-fg);
+  --color-bubble-home: var(--bubble-home);
+  --color-bubble-home-fg: var(--bubble-home-fg);
+  --color-bubble-travel: var(--bubble-travel);
+  --color-bubble-travel-fg: var(--bubble-travel-fg);
+  --color-bubble-study: var(--bubble-study);
+  --color-bubble-study-fg: var(--bubble-study-fg);
+  --color-bubble-personal: var(--bubble-personal);
+  --color-bubble-personal-fg: var(--bubble-personal-fg);
+  --color-bubble-preach: var(--bubble-preach);
+  --color-bubble-preach-fg: var(--bubble-preach-fg);
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+  --shadow-card: var(--shadow);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html,
+  body {
+    min-height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

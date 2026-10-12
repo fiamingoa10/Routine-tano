@@ -1,0 +1,34 @@
+.vercel
+
+# Archivos locales de My Routine Tano
+.vercel/
+iconos-backup/
+textos-backup/
+generar-iconos-tano.ps1
+cambiar-nombre-tano.mjs
+cambiar-colores-tano.mjs
+
+# My Routine Tano: archivos privados y locales
+.vercel/
+.env
+.env.*
+!.env.example
+iconos-backup/
+textos-backup/
+generar-iconos-tano.ps1
+cambiar-nombre-tano.mjs
+cambiar-colores-tano.mjs
+public/tano-icon-original.png
+
+# Dependencias y archivos generados
+node_modules/
+.node_modules.lock
+.output/
+dist/
+coverage/
+*.log
+
+# Archivos internos y capturas de desarrollo
+.grok/
+screenshots/
+attachments/
